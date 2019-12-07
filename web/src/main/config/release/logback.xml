@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${catalina.base}/logs/phoneBook.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>${catalina.base}/logs/phoneBook.%d{yyyy-MM-dd}.log.%i.gz</fileNamePattern>
+      <maxFileSize>1GB</maxFileSize>
+      <maxHistory>5</maxHistory>
+      <totalSizeCap>5GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%green(%X{RequestId})] %cyan(%-40.40logger{39}) - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="ru.cbr.demo.phoneBook.web" level="DEBUG"/>
+
+  <root level="INFO">
+    <appender-ref ref="COLOR_FILE"/>
+    <appender-ref ref="FILE"/>
+  </root>
+</configuration>

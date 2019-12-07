@@ -1,0 +1,25 @@
+.container {
+    width:600px;
+    height:400px;
+    padding:10px;
+    border:10px dashed #ffffff;
+    border-radius: 25px;
+    display: table-cell;
+vertical-align: middle;
+text-align: center;
+}
+.cloud{
+
+
+    height: 150px;
+}
+.imgcontainer{margin-top: 10px;}
+
+h2 {
+color:#ffffff;
+font-size: 20px;
+}
+
+body {
+    background-color: #45484f;
+}
