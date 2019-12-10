@@ -1,0 +1,180 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Hosting</title>
+  <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
+  <link href="/css/image_hosting.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&amp;subset=korean&amp;display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css"
+        integrity="sha256-R91pD48xW+oHbpJYGn5xR0Q7tMhH4xOrWn1QqMRINtA=" crossorigin="anonymous">
+  <style type="text/css">
+    .toast-close-button,
+    #toast-container > div {
+      opacity: .9;
+      filter: alpha(opacity=90);
+    }
+  </style>
+  <script type="text/javascript" src="/js/vendor/jquery-3.4.1.min.js"></script>
+  <script async="" src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"
+          integrity="sha256-Hgwq1OBpJ276HUP9H3VJkSv9ZCGRGQN+JldPJ8pNcUM=" crossorigin="anonymous"></script>
+
+</head>
+<body class="viewer">
+<div id="CANVAS"></div>
+<div id="MAIN">
+  <div style="text-align:center">
+    <a id="LOGO" href="/">Image Hosting</a>
+  </div>
+
+  <style type="text/css">
+    #MAIN {
+      text-align: center;
+    }
+
+    .uploadCta {
+      display: inline-block;
+      background-color: #5475a0;
+      margin-top: 5px;
+      padding: 10px 10px 10px 35px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 25px;
+      margin-right: 10px;
+      background-image: url('/img/baseline-add_photo_alternate-24px.svg');
+      background-repeat: no-repeat;
+      background-position: 10px center;
+    }
+
+    .imageContainer {
+      margin-bottom: 10px;
+      font-size: 0;
+    }
+
+    .imageLink {
+      display: inline-block;
+      max-width: 100%;
+    }
+
+    .image {
+      max-width: 100%;
+    }
+
+    .message {
+      display: inline-block;
+      font-size: 15px;
+      color: white;
+      background-color: #666;
+      padding: 15px 20px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .detailCta {
+      display: inline-block;
+      background-color: #b56363;
+      text-decoration: none;
+      font-weight: bold;
+      color: #fff;
+      border-radius: 20px;
+      padding: 10px;
+      margin-top: 5px;
+    }
+  </style>
+  <div th:each="file : *{filesList}">
+    <div class="imageContainer">
+      <a class="imageLink" th:href="${'/' + file.fileName}" target="_blank">
+        <img class="image" th:src="${'/' + file.fileName}"></a></div>
+  </div>
+  <div>
+    <a class="uploadCta" href="/">Upload an image</a>
+    <a class="detailCta" th:href="${'/i/' + nameList}">
+      See image sharing links </a>
+  </div>
+
+
+  <div class="pswp" aria-hidden="true" role="dialog" tabindex="-1">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+      <div class="pswp__ui pswp__ui--hidden">
+        <div class="pswp__top-bar">
+          <div class="pswp__counter"></div>
+          <button class="pswp__button pswp__button--close" title="(Esc)"></button>
+          <button class="pswp__button pswp__button--share"></button>
+          <button class="pswp__button pswp__button--fs"></button>
+          <button class="pswp__button pswp__button--zoom"></button>
+          <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div>
+        </div>
+        <button class="pswp__button pswp__button--arrow--left"></button>
+        <button class="pswp__button pswp__button--arrow--right"></button>
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"
+        integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"
+        integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin="anonymous">
+  <script async="" src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"
+          integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin="anonymous"></script>
+  <script async="" src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"
+          integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    $(function () {
+      var items = [];
+
+      $('.imageLink').click(function (e) {
+        if (PhotoSwipe && document.querySelector && items.findIndex) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          if (items.length === 0) {
+            document.querySelectorAll('.imageLink').forEach(function (imgLink) {
+              var imgElem = imgLink.querySelector('img');
+              items.push({
+                           src: imgLink.href, w: imgElem.naturalWidth, h: imgElem.naturalHeight
+                         });
+            });
+          }
+
+          var index = items.findIndex(function (item) {
+            return item.src === e.currentTarget.href;
+          });
+
+          new PhotoSwipe(document.querySelector('.pswp'), PhotoSwipeUI_Default, items, {
+            index: index,
+            bgOpacity: 0.8,
+            history: false,
+            barsSize: {top: 44, bottom: 0},
+            shareEl: false,
+            closeOnScroll: false,
+          }).init();
+        }
+      });
+    });
+  </script>
+</div>
+
+
+</body>
+</html>

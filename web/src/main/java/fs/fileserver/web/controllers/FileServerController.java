@@ -1,13 +1,20 @@
 package fs.fileserver.web.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fs.fileserver.web.processor.PhoneBookProcess;
+import filter.SID;
+import fs.fileserver.web.models.CaptchaRequest;
+import fs.fileserver.web.models.UploadResponse;
+import fs.fileserver.web.processor.FileServerProcessor;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import utils.Utils;
 
 import javax.activation.FileTypeMap;
 import java.io.File;
@@ -16,39 +23,66 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 @RestController
-public class FileServerController {
+public class FileServerController
+{
 
-    private final ObjectMapper objectMapper;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final PhoneBookProcess processor;
+  private final ObjectMapper objectMapper;
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private final FileServerProcessor processor;
 
+  public FileServerController(ObjectMapper objectMapper, FileServerProcessor fileServerProcessor)
+  {
+    this.objectMapper = objectMapper;
+    this.processor = fileServerProcessor;
+  }
 
-    public FileServerController(ObjectMapper objectMapper, PhoneBookProcess processor) {
-        this.objectMapper = objectMapper;
-        this.processor = processor;
+  /*@RequestMapping (value = "/g/{name}", method = RequestMethod.GET)
+  @ResponseBody
+  public ResponseEntity<byte[]> what(@PathVariable String name) throws IOException
+  {
+    File file = processor.load(name);
+    return ResponseEntity.ok()
+      .header("Content-Disposition", "attachment; filename=" + file.getName())
+      .contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(file)))
+      .body(Files.readAllBytes(file.toPath()));
+  }*/
+
+  @RequestMapping (method = RequestMethod.POST, produces = Utils.CONTENT_TYPE, value = "/captcha/check")
+  public Boolean captchaCheck(@RequestBody CaptchaRequest fileRequest, @RequestHeader MultiValueMap<String, String> headers)
+  {
+    //todo check
+    return false;
+  }
+
+  @PostMapping ("/upload")
+  public UploadResponse fileUpload(@RequestParam ("fileData") MultipartFile file, @RequestHeader MultiValueMap<String, String> headers)
+  {
+
+    String fileId = SID.getSID();
+    logHeaders(headers);
+    UploadResponse response = new UploadResponse();
+    try {
+      logger.info("upload file: " + file.getOriginalFilename());
+      response.fileId = fileId;
+      response.fileName = processor.store(file, fileId);
+      response.success = true;
+      logger.info("save success as: " + response.fileName);
+    } catch (Exception e) {
+      logger.info("save error");
+      logger.error(e.getMessage());
+      response.success = false;
     }
+    return response;
+  }
 
-    @RequestMapping(value = "/ex/foos/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    @ResponseBody
-    public byte[] getFoosBySimplePathWithPathVariable(
-            @PathVariable String id) throws IOException {
-        File initialFile = new File("/" + id);
-        InputStream in = new FileInputStream(initialFile);
-        return IOUtils.toByteArray(in);
-    }
-
-    @RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<byte[]> what(@PathVariable String id) throws IOException {
-        String content = new String(Files.readAllBytes(Paths.get("/Users/kk0174lll/temp/" + id)));
-        File file = new File("/" + content);
-        return ResponseEntity.ok()
-                .header("Content-Disposition", "attachment; filename=" + file.getName())
-                .contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(file)))
-                .body(Files.readAllBytes(file.toPath()));
-    }
-
-
+  private void logHeaders(MultiValueMap<String, String> headers)
+  {
+    headers.forEach((key, value) -> {
+      logger.info(String.format(
+        "Header '%s' = %s", key, String.join("|", value)));
+    });
+  }
 }

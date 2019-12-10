@@ -1,0 +1,52 @@
+.uploadCta, .viewCta {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0 20px;
+    border-radius: 20px;
+    height: 40px;
+    line-height: 40px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    margin: 0 5px 10px;
+}
+
+.uploadCta {
+    background-color: #5475a0;
+}
+
+.viewCta {
+    background-color: #b56363;
+}
+
+table.imgDataAll {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+table.imgData {
+    width: 100%;
+}
+
+table.imgData td {
+    white-space: nowrap;
+}
+
+table.imgData td:last-child,
+table.imgData input {
+    width: 100%;
+}
+
+.smallText {
+    font-size: 11px;
+}
+
+.detailRow, .detailInput {
+    cursor: pointer;
+}
+
+.imgContainer img, .imgContainer video {
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+}

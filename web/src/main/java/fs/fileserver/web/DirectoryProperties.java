@@ -9,16 +9,10 @@ import utils.Utils;
 public class DirectoryProperties
 {
   private String work;
-  private String prepare;
 
   public String getWork()
   {
     return Utils.stringValue(work);
-  }
-
-  public String getPrepare()
-  {
-    return Utils.stringValue(prepare);
   }
 
   public void setWork(String work)
@@ -26,8 +20,4 @@ public class DirectoryProperties
     this.work = work;
   }
 
-  public void setPrepare(String prepare)
-  {
-    this.prepare = prepare;
-  }
 }

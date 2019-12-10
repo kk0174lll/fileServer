@@ -9,7 +9,7 @@
     </encoder>
   </appender>
 
-  <logger name="ru.cbr.demo.phoneBook.web" level="DEBUG" />
+  <logger name="fileServer.web" level="DEBUG" />
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />

@@ -32,7 +32,7 @@ UTILS.sendRequest = function (url, params, callBack) {
   return $.ajax({
                   url: url,
                   type: "POST",
-                  data: params,
+                  data: JSON.stringify(params),
                   dataType: 'json',
                   contentType: "application/json; charset=utf-8",
                   success: success,

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Hosting</title>
+  <script type="text/javascript">
+    if (!String.prototype.endsWith) {
+      String.prototype.endsWith = function (search, this_len) {
+        if (this_len === undefined || this_len > this.length) {
+          this_len = this.length;
+        }
+        return this.substring(this_len - search.length, this_len) === search;
+      };
+    }
+  </script>
+  <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
+  <link href="/css/image_hosting.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&amp;subset=korean&amp;display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css"
+        integrity="sha256-R91pD48xW+oHbpJYGn5xR0Q7tMhH4xOrWn1QqMRINtA=" crossorigin="anonymous">
+  <style type="text/css">
+    .toast-close-button,
+    #toast-container > div {
+      opacity: .9;
+      filter: alpha(opacity=90);
+    }
+  </style>
+  <script type="text/javascript" src="/js/vendor/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="/js/utils.js"></script>
+  <link href="/css/info.css"  rel="stylesheet">
+  <script async="" src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"
+          integrity="sha256-Hgwq1OBpJ276HUP9H3VJkSv9ZCGRGQN+JldPJ8pNcUM=" crossorigin="anonymous"></script>
+</head>
+<body class="">
+<div id="CANVAS"></div>
+<div id="MAIN">
+  <div style="text-align:center">
+    <a id="LOGO" href="/">Image Hosting</a>
+  </div>
+
+  <script type="text/javascript" src="/js/vendor/clipboard.min.js"></script>
+  <script type="text/javascript">
+    var detailClipboard = new ClipboardJS('.detailRow', {
+      target: function (trigger) {
+        return $(trigger).find(".detailInput")[0];
+      }
+    });
+    detailClipboard.on('success', function (e) {
+      toastr.info("Copied to clipboard");
+    });
+  </script>
+
+  <div style="text-align:center">
+    <a class="uploadCta" href="/">
+      <img style="vertical-align:middle" src="/img/baseline-add_photo_alternate-24px.svg">
+      <span style="vertical-align:middle">Upload new images</span>
+    </a>
+    <a class="viewCta" th:href="${'/v/' + nameList}">
+      Go to the shareable page </a>
+  </div>
+  <table class="imgDataAll imgData">
+    <tbody>
+    <tr>
+      <td colspan="2">
+        <table style="width:100%;background-color:#d0dae2;padding:5px">
+          <tbody>
+          <tr class="detailRow">
+            <td><b>All Share URL</b></td>
+            <td><input class="detailInput" readonly="" style="width:100%" type="text"
+                       th:value="${'http://134.209.94.251:8080/v/' + nameList}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr th:each="file : *{filesList}" style="background-color:#e5e3dc">
+      <td style="padding:0">
+        <div style="width:155px;height:150px;margin:0;padding:0">
+          <a th:href="${'/v/' + file.fileId}" target="_blank" class="imgContainer"><img th:src="${'/' + file.fileName}" border="0"></a>
+        </div>
+      </td>
+      <td>
+        <table class="imgData">
+          <tbody>
+          <tr class="detailRow">
+            <td><b>Share URL</b></td>
+            <td><input class="detailInput" readonly="" type="text" th:value="${'http://134.209.94.251:8080/v/' + file.fileId}"></td>
+          </tr>
+          <tr class="detailRow">
+            <td><b>Image URL</b></td>
+            <td><input class="detailInput" readonly="" type="text" th:value="${'http://134.209.94.251:8080/' + file.fileName}" name="imgcode1">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="white-space:normal">
+              <span style="white-space:nowrap">Storage: 195days&emsp;</span>
+              <span style="white-space:nowrap">(Expires: 2020-06-21)</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+
+</div>
+
+
+</body>
+</html>

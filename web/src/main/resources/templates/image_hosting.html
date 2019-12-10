@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Hosting</title>
+  <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
+  <link href="/css/image_hosting.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&amp;subset=korean&amp;display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css"
+        integrity="sha256-R91pD48xW+oHbpJYGn5xR0Q7tMhH4xOrWn1QqMRINtA=" crossorigin="anonymous">
+  <style type="text/css">
+    .toast-close-button,
+    #toast-container > div {
+      opacity: .9;
+      filter: alpha(opacity=90);
+    }
+  </style>
+
+  <script type="text/javascript" src="js/vendor/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/utils.js"></script>
+  <script type="text/javascript" src="js/image_hosting.js"></script>
+  <script async="" src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"
+          integrity="sha256-Hgwq1OBpJ276HUP9H3VJkSv9ZCGRGQN+JldPJ8pNcUM=" crossorigin="anonymous"></script>
+
+</head>
+<body class="">
+<div id="CANVAS"></div>
+<div id="MAIN">
+  <div style="text-align:center">
+    <a id="LOGO" href="/">IFH Image Hosting</a>
+  </div>
+
+  <div>
+    <!--[if gte IE 10]-->
+    <div id="settings">
+      <label style="font-size:0">
+        <div id="fileSelectorButton">
+          <img style="vertical-align:middle" src="/img/baseline-add_photo_alternate-24px.svg">
+          <span style="vertical-align:middle">Select Images and Videos</span>
+          <img class="dotLoader" src="/img/dot-loader.svg">
+        </div>
+        <input id="fileSelector" type="file" style="display: none" onchange="fileSelected(event)"
+               accept=".gif,.png,.bmp,.jpg,.jpeg,.webp,.mp4,.wmv,.mov,.avi,.m4v,.mkv,.webm,.mpeg,.flv" multiple="">
+      </label>
+    </div>
+    <div id="fileQueue">
+      <div id="dropCta">Drop images and videos here</div>
+      <div id="dropIndicator"><img src="/img/baseline-add_photo_alternate-24px.svg"></div>
+    </div>
+    <div>
+      <div id="uploadButton" onclick="uploadbutton()">Upload</div>
+      <div id="uploadingButton" style="display:none">&nbsp;</div>
+    </div>
+
+    <div id="captchaContainer" style="display:none">
+      <script src="https://www.google.com/recaptcha/api.js?render=explicit" async="" defer=""></script>
+      <div id="captchaModal"></div>
+      <div id="captcha"></div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
