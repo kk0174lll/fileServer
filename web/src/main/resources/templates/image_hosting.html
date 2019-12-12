@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Image Hosting</title>
+  <title th:text="${title +' Image Hosting'}">Image Hosting</title>
   <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
   <link href="/css/image_hosting.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&amp;subset=korean&amp;display=swap"
@@ -29,7 +29,7 @@
 <div id="CANVAS"></div>
 <div id="MAIN">
   <div style="text-align:center">
-    <a id="LOGO" href="/">IFH Image Hosting</a>
+    <a id="LOGO" href="/" th:text="${title +' Image Hosting'}">Image Hosting</a>
   </div>
 
   <div>

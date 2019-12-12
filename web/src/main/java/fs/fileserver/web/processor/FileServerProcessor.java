@@ -1,10 +1,9 @@
 package fs.fileserver.web.processor;
 
-import filter.SID;
-import fs.fileserver.web.DirectoryProperties;
-import org.apache.commons.io.FileUtils;
+import fs.fileserver.web.FileServerProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,21 +16,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collection;
-import java.util.Iterator;
 
 @Service
 public class FileServerProcessor
 {
-
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
   private final Path rootLocation;
-  private final DirectoryProperties directoryProperties;
 
   @Autowired
-  public FileServerProcessor(DirectoryProperties directoryProperties)
+  public FileServerProcessor(FileServerProperties fileServerProperties)
   {
-    this.directoryProperties = directoryProperties;
-    this.rootLocation = Paths.get(directoryProperties.getWork());
+    this.rootLocation = Paths.get(fileServerProperties.getDirectory());
   }
 
   public String store(MultipartFile file, String fileId)
@@ -54,6 +49,7 @@ public class FileServerProcessor
       }
       saveFileName(fileId, filename);
     } catch (IOException e) {
+      logger.error("save file error", e);
       throw new StorageException("Failed to store file " + filename, e);
     }
     return filename;
@@ -78,13 +74,13 @@ public class FileServerProcessor
 
   public String readFileName(String key) throws IOException
   {
-    return new String(Files.readAllBytes(Paths.get(rootLocation + key)));
+    return new String(Files.readAllBytes(this.rootLocation.resolve(key)));
   }
 
 
   public void saveFileName(String key, String name) throws IOException
   {
-    Files.write(Paths.get(rootLocation + key), name.getBytes());
+    Files.write(this.rootLocation.resolve(key), name.getBytes());
   }
 
 
