@@ -20,7 +20,7 @@
     <generateBackupPoms>false</generateBackupPoms>
     <allowSnapshots>false</allowSnapshots>
     <maven.build.timestamp.format>dd-MM-yyyy HH:mm:ss z</maven.build.timestamp.format>
-    <spring.version>2.2.2.RELEASE</spring.version>
+    <spring.version>2.5.12</spring.version>
 
   </properties>
 
